@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.10)
 
 project(infirmary VERSION 0.0.1 LANGUAGES CXX)
 
-add_subdirectory(external/drogon EXCLUDE_FROM_ALL)
+#add_subdirectory(external/drogon EXCLUDE_FROM_ALL)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
