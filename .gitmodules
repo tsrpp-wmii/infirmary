@@ -1,3 +1,6 @@
 [submodule "external/googletest"]
 	path = external/googletest
 	url = https://github.com/google/googletest
+[submodule "external/drogon"]
+	path = external/drogon
+	url = https://github.com/drogonframework/drogon.git
