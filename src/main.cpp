@@ -1,7 +1,16 @@
 #include <iostream>
 
+#include "server.h"
+
 int main()
 {
-    std::cout << "Hello World!" << std::endl;
-    std::cout << PROJECT_NAME<< "\n";
+    try
+    {
+        tsrpp::Server server;
+        server.run();
+    }
+    catch(const std::exception& e)
+    {
+        std::cerr << e.what() << '\n';
+    }
 }

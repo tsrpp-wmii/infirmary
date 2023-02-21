@@ -13,6 +13,12 @@ add_library(${PROJECT_NAME}
     ${HPP_FILES}
 )
 
+target_include_directories(${PROJECT_NAME} PRIVATE
+    ${drogon_SOURCE_DIR}/lib/inc
+    )
+
+target_link_libraries(${PROJECT_NAME} PRIVATE drogon)
+
 add_executable(${CMAKE_PROJECT_NAME}
     main.cpp
 )
