@@ -14,6 +14,5 @@ public:
     ~Server();
 
     void run();
-private:
 };
 }

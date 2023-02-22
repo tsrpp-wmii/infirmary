@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "server.h"
+#include "server/server.h"
 
 TEST(DummyTests, Dummytest)
 {

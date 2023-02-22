@@ -1,29 +1,16 @@
-project(${CMAKE_PROJECT_NAME}_lib)
+project(${CMAKE_PROJECT_NAME})
 
-file(GLOB_RECURSE SRC_FILES *.cpp)
-file(GLOB_RECURSE H_FILES *.h)
-file(GLOB_RECURSE HPP_FILES *.hpp)
+add_subdirectory(server)
 
-get_filename_component(MAIN_PATH_CPP ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp ABSOLUTE)
-list(REMOVE_ITEM SRC_FILES "${MAIN_PATH_CPP}")
-
-add_library(${PROJECT_NAME}
-    ${SRC_FILES}
-    ${H_FILES}
-    ${HPP_FILES}
+add_executable(${CMAKE_PROJECT_NAME}
+    ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp
 )
 
 target_include_directories(${PROJECT_NAME} PRIVATE
-    ${drogon_SOURCE_DIR}/lib/inc
-    )
-
-target_link_libraries(${PROJECT_NAME} PRIVATE drogon)
-
-add_executable(${CMAKE_PROJECT_NAME}
-    main.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/server
 )
 
-target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE ${PROJECT_NAME})
+target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE ${CMAKE_PROJECT_NAME}_lib)
 
 set(OUTPUT_DIR ${CMAKE_BINARY_DIR}/output/${CMAKE_BUILD_TYPE})
 if(NOT EXISTS ${OUTPUT_DIR})
