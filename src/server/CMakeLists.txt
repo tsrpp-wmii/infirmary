@@ -11,7 +11,11 @@ add_library(${PROJECT_NAME}
 )
 
 target_include_directories(${PROJECT_NAME} PRIVATE
-    ${DROGON_INCLUDE_DIRS}
+    ${drogon_INCLUDE_DIRS}
+    ${fmt_INCLUDE_DIRS}
 )
 
-target_link_libraries(${PROJECT_NAME} PRIVATE drogon)
+target_link_libraries(${PROJECT_NAME} PRIVATE
+    drogon
+    fmt
+)

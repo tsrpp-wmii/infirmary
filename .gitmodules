@@ -4,3 +4,6 @@
 [submodule "external/drogon"]
 	path = external/drogon
 	url = https://github.com/drogonframework/drogon.git
+[submodule "external/fmt"]
+	path = external/fmt
+	url = https://github.com/fmtlib/fmt.git

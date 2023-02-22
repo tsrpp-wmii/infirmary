@@ -5,10 +5,7 @@ project(infirmary VERSION 0.0.1 LANGUAGES CXX)
 set(EXTERNAL "external")
 
 add_subdirectory(${EXTERNAL}/drogon)
-
-if(NOT DEFINED ${CMAKE_BUILD_TYPE})
-    set(CMAKE_BUILD_TYPE "Debug")
-endif()
+add_subdirectory(${EXTERNAL}/fmt)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
@@ -22,9 +19,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 add_compile_definitions(PROJECT_NAME="${CMAKE_PROJECT_NAME}")
 
 if(UNIX)
-    if(${CMAKE_BUILD_TYPE} STREQUAL "Debug")
-        add_compile_options(-D_DEBUG -g)
-    endif()
+    add_compile_options(-D_DEBUG -g)
     add_compile_options(-Wall -Werror -Wno-unused-function -Wfatal-errors)
 endif()
 
@@ -34,6 +29,6 @@ option(UNIT_TEST "Test the basic operation" ON)
 if(UNIT_TEST)
     set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
     enable_testing()
-    add_subdirectory(${EXTERNAL}/googletest)
+    add_subdirectory(${EXTERNAL}/googletest EXCLUDE_FROM_ALL)
     add_subdirectory(tests)
 endif()
