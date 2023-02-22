@@ -14,6 +14,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - name: Install dependencies
+      run: sudo apt-get install libjsoncpp-dev uuid-dev zlib1g-dev
+
     - uses: actions/checkout@v3
 
     - name: Update submodules

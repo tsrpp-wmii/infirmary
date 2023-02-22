@@ -2,7 +2,9 @@ cmake_minimum_required(VERSION 3.10)
 
 project(infirmary VERSION 0.0.1 LANGUAGES CXX)
 
-#add_subdirectory(external/drogon EXCLUDE_FROM_ALL)
+set(EXTERNAL "external")
+
+add_subdirectory(${EXTERNAL}/drogon)
 
 if(NOT DEFINED ${CMAKE_BUILD_TYPE})
     set(CMAKE_BUILD_TYPE "Debug")
@@ -32,6 +34,6 @@ option(UNIT_TEST "Test the basic operation" ON)
 if(UNIT_TEST)
     set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
     enable_testing()
-    add_subdirectory(external/googletest EXCLUDE_FROM_ALL)
+    add_subdirectory(${EXTERNAL}/googletest)
     add_subdirectory(tests)
 endif()
