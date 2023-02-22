@@ -25,6 +25,9 @@ jobs:
     runs-on: windows-latest
 
     steps:
+      - name: Install dependencies
+        run: sudo apt-get install libjsoncpp-dev uuid-dev zlib1g-dev
+
       - name: Checkout repository
         uses: actions/checkout@v3
 
