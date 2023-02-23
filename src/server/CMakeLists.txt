@@ -6,6 +6,13 @@ add_library(${PROJECT_NAME}
     ${SRC_FILES}
 )
 
+if(UNIX)
+    target_compile_options(${PROJECT_NAME} PUBLIC
+        "$<$<CONFIG:Debug>:-D_DEBUG -g>"
+        -Wall -Werror -Wno-unused-function -Wfatal-errors
+    )
+endif()
+
 target_include_directories(${PROJECT_NAME} PRIVATE
     ${EXTERNAL_ABSOLUTE_PATH}/fmt/include
 )
