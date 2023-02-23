@@ -24,13 +24,6 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 add_compile_definitions(PROJECT_NAME="${CMAKE_PROJECT_NAME}")
 
-if(UNIX)
-    if(${CMAKE_BUILD_TYPE} STREQUAL "Debug")
-        add_compile_options(-D_DEBUG -g)
-    endif()
-    add_compile_options(-Wall -Werror -Wno-unused-function -Wfatal-errors)
-endif()
-
 add_subdirectory(src)
 
 option(UNIT_TEST "Test the basic operation" ON)
