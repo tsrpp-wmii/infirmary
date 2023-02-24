@@ -1,6 +1,9 @@
 project(${CMAKE_PROJECT_NAME}_lib)
 
-file(GLOB_RECURSE SRC_FILES *.cpp)
+file(GLOB_RECURSE SRC_FILES
+    *.cpp
+    EXCLUDE controllers/*.cpp
+)
 
 add_library(${PROJECT_NAME}
     ${SRC_FILES}
@@ -19,11 +22,6 @@ if(UNIX)
     )
 endif()
 
-drogon_create_views(${PROJECT_NAME}
-    ${CMAKE_CURRENT_SOURCE_DIR}/views
-    ${CMAKE_CURRENT_BINARY_DIR}
-)
-
 target_include_directories(${PROJECT_NAME} PRIVATE
     ${ABSOLUTE_EXTERNAL_PATH}/fmt/include
 )
@@ -31,4 +29,5 @@ target_include_directories(${PROJECT_NAME} PRIVATE
 target_link_libraries(${PROJECT_NAME} PRIVATE
     drogon
     fmt::fmt
+    SQLiteCpp
 )

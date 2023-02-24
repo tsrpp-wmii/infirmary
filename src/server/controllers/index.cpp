@@ -14,7 +14,7 @@ class HelloViewController : public drogon::HttpSimpleController<HelloViewControl
     {
         drogon::HttpViewData data;
         data["name"] = req->getParameter("name");
-        auto resp = drogon::HttpResponse::newHttpViewResponse("HelloView", data);
+        auto resp = drogon::HttpResponse::newHttpViewResponse("hello", data);
         callback(resp);
     }
 };
