@@ -9,11 +9,11 @@ add_library(${PROJECT_NAME}
     ${SRC_FILES}
 )
 
-set(DATABASE_PATH "database.db3")
-
-target_compile_definitions(${PROJECT_NAME} PRIVATE DATABASE_PATH="${DATABASE_PATH}")
+set(DATABASE_PATH database.db3)
 
 target_compile_definitions(${PROJECT_NAME} PUBLIC PROJECT_NAME="${CMAKE_PROJECT_NAME}")
+target_compile_definitions(${PROJECT_NAME} PRIVATE DATABASE_PATH="${DATABASE_PATH}")
+target_compile_definitions(${PROJECT_NAME} PRIVATE DOCUMENT_ROOT_PATH="${CMAKE_CURRENT_SOURCE_DIR}/views/style")
 
 if(UNIX)
     target_compile_options(${PROJECT_NAME} PUBLIC

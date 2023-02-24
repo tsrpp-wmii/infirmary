@@ -7,7 +7,7 @@ endif()
 
 add_subdirectory(server)
 
-# Drogon's issue - HTTP Controllers need to be compiled as the part of
+# ISSUE: drogon's http controllers need to be compiled as the part of
 # the executable instead of the library.
 file(GLOB_RECURSE CONTROLLERS_FILES
     server/controllers/*.cpp
