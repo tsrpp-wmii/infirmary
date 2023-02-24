@@ -21,18 +21,16 @@ Server::~Server()
 void Server::run()
 {
     fmt::print("Server::{} built at {} started on http://{}:{} !\n", PROJECT_NAME, "[TODO]", IP, PORT);
-    auto& app = drogon::app();
-    app.addListener(IP, PORT);
-    app.setDocumentRoot("html");
-    app.registerHandler(
+    drogon::app().registerHandler(
         "/",
-        [](const drogon::HttpRequestPtr &,
-           std::function<void(const drogon::HttpResponsePtr &)> &&callback) {
+        [](const drogon::HttpRequestPtr&,
+           std::function<void(const drogon::HttpResponsePtr&)>&& callback) {
             auto resp = drogon::HttpResponse::newHttpResponse();
             resp->setBody("Hello, World!");
             callback(resp);
         },
         {drogon::Get});
-    app.run();
+
+    drogon::app().addListener(IP, PORT).run();
 }
 }

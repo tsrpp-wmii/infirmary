@@ -6,6 +6,12 @@ add_library(${PROJECT_NAME}
     ${SRC_FILES}
 )
 
+set(DATABASE_PATH "database.db3")
+
+target_compile_definitions(${PROJECT_NAME} PRIVATE DATABASE_PATH="${DATABASE_PATH}")
+
+target_compile_definitions(${PROJECT_NAME} PUBLIC PROJECT_NAME="${CMAKE_PROJECT_NAME}")
+
 if(UNIX)
     target_compile_options(${PROJECT_NAME} PUBLIC
         "$<$<CONFIG:Debug>:-D_DEBUG -g>"
@@ -13,8 +19,13 @@ if(UNIX)
     )
 endif()
 
+drogon_create_views(${PROJECT_NAME}
+    ${CMAKE_CURRENT_SOURCE_DIR}/views
+    ${CMAKE_CURRENT_BINARY_DIR}
+)
+
 target_include_directories(${PROJECT_NAME} PRIVATE
-    ${EXTERNAL_ABSOLUTE_PATH}/fmt/include
+    ${ABSOLUTE_EXTERNAL_PATH}/fmt/include
 )
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
