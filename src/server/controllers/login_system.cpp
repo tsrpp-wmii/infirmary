@@ -26,9 +26,7 @@ public:
 
             if (pesel == "root" && tsrpp::verifyPassword(passwd, securePasswd))
             {
-                auto tmp = tsrpp::createUrl("/panel");
-                std::cout << tmp << "\n";
-                resp = drogon::HttpResponse::newRedirectionResponse(tmp);
+                resp = drogon::HttpResponse::newRedirectionResponse(tsrpp::createUrl("/panel"));
                 req->session()->insert("loggedIn", true);
                 callback(resp);
                 return;
@@ -43,10 +41,6 @@ public:
         data.insert("loginAttempt", loginAttempt);
 
         resp = drogon::HttpResponse::newHttpViewResponse("login", data);
-        // if (!loginAttempt)
-        // {
-        //     resp->setStatusCode(drogon::k401Unauthorized);
-        // }
         callback(resp);
     }
 };

@@ -4,6 +4,8 @@
 #include <openssl/rand.h>
 
 #include <string_view>
+#include <cstring>
+#include <array>
 
 #define NOT_COPYABLE(TypeName)           \
 TypeName(const TypeName&)=delete;        \
@@ -19,50 +21,37 @@ NOT_MOVEABLE(TypeName)
 
 namespace tsrpp
 {
-static constexpr std::string_view salt{"damiantomczak"};
+static constexpr std::string_view salt{"tsrpp"};
 
 inline std::string hashPassword(const std::string& password)
 {
-    EVP_MD_CTX* mdctx{};
-    const EVP_MD* md{};
-    int errorCode;
-
-    md = EVP_sha256();
-    mdctx = EVP_MD_CTX_new();
-    if (mdctx == nullptr)
-    {
-        throw std::runtime_error{"EVP_MD_CTX_new couldn't create the context"};
-    }
-
-    std::string passwordWithSalt{password};
+    std::string passwordWithSalt(password);
     passwordWithSalt += salt;
 
-    // errorCode = EVP_DigestInit_ex(mdctx, md, nullptr);
-    // errorCode = EVP_DigestUpdate(mdctx, passwordWithSalt.data(), passwordWithSalt.length());
-    // errorCode = EVP_DigestFinal_ex(mdctx, result.data(), reinterpret_cast<unsigned int*>(result.length()));
+    const EVP_MD* md{};
+    EVP_MD_CTX* context{};
+    std::array<unsigned char, EVP_MAX_MD_SIZE>hash;
+    unsigned int hashLen;
 
-    std::string result(32, '\0');
-    unsigned int length = result.length();
-    errorCode = EVP_DigestInit_ex(mdctx, md, nullptr);
-    std::cout << errorCode << std::endl;
-    errorCode = EVP_DigestUpdate(mdctx, passwordWithSalt.data(), passwordWithSalt.length());
-    std::cout << errorCode << std::endl;
-    errorCode = EVP_DigestFinal_ex(mdctx, reinterpret_cast<unsigned char*>(result.data()), &length);
-std::cout << errorCode << std::endl;
-    EVP_MD_CTX_free(mdctx);
+    md = EVP_sha256();
+    context = EVP_MD_CTX_new();
 
-    if (errorCode != 1)
-    {
-        throw std::runtime_error{"Hashing password returned error"};
-    }
-    std::cout << result << std::endl;
-    return result;
+    EVP_DigestInit_ex(context, md, nullptr);
+    EVP_DigestUpdate(context, password.c_str(), password.size());
+    EVP_DigestFinal_ex(context, hash.data(), &hashLen);
+    EVP_MD_CTX_free(context);
+
+    char hexstring[hashLen * 2 + 1];
+    for (unsigned int i{}; i < hashLen; ++i)
+        sprintf(&hexstring[i * 2], "%02x", hash[i]);
+    hexstring[hashLen * 2] = '\0';
+
+    return std::string(hexstring);
 }
 
 inline bool verifyPassword(const std::string& password, const std::string& hash)
 {
-    std::string passwordHash = hashPassword(password);
-    return passwordHash == hash;
+    return (hashPassword(password) == hash);
 }
 
 // TODO:: Temporary function untill ssl will be provided
