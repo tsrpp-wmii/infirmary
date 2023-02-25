@@ -17,7 +17,7 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE DOCUMENT_ROOT_PATH="${CMAKE_C
 
 if(UNIX)
     target_compile_options(${PROJECT_NAME} PUBLIC
-        "$<$<CONFIG:Debug>:-D_DEBUG -g>"
+        "$<$<CONFIG:Debug>:-D_DEBUG -g -O0>"
         -Wall -Werror -Wno-unused-function -Wfatal-errors
     )
 endif()

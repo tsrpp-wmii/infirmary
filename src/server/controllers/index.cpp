@@ -3,13 +3,12 @@
 
 class IndexViewController : public drogon::HttpSimpleController<IndexViewController>
 {
-  public:
+public:
     PATH_LIST_BEGIN
     PATH_ADD("/");
     PATH_LIST_END
 
-    void asyncHandleHttpRequest(
-        const drogon::HttpRequestPtr& req,
+    void asyncHandleHttpRequest(const drogon::HttpRequestPtr& req,
         std::function<void(const drogon::HttpResponsePtr&)>&& callback) override
     {
         drogon::HttpViewData data;
