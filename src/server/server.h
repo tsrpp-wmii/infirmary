@@ -4,6 +4,13 @@
 
 #include "tools.hpp"
 
+#include <memory>
+
+namespace SQLite
+{
+    class Database;
+}
+
 namespace tsrpp
 {
 class Server final
@@ -14,5 +21,7 @@ public:
     ~Server();
 
     void run();
+private:
+    std::unique_ptr<SQLite::Database> mDatabase;
 };
 }

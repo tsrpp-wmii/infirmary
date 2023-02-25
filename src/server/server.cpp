@@ -12,7 +12,8 @@ using namespace std::chrono_literals;
 
 namespace tsrpp
 {
-Server::Server()
+Server::Server() :
+    mDatabase{std::make_unique<SQLite::Database>(DATABASE_PATH)}
 {
     fmt::print("SQlite3 version {} ({})\n", SQLite::VERSION, SQLite::getLibVersion());
     fmt::print("SQliteC++ version {}\n", SQLITECPP_VERSION);
