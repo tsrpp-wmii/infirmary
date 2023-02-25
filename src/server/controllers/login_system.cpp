@@ -22,9 +22,9 @@ public:
         {
             std::string pesel = req->getParameter("pesel");
             std::string passwd = req->getParameter("passwd");
-            std::string securePasswd = tsrpp::createHash("password123");
+            std::string securePasswd = tsrpp::hashPassword("password123");
 
-            if (pesel == "root" && tsrpp::validatePassword(passwd, securePasswd))
+            if (pesel == "root" && tsrpp::verifyPassword(passwd, securePasswd))
             {
                 auto tmp = tsrpp::createUrl("/panel");
                 std::cout << tmp << "\n";
