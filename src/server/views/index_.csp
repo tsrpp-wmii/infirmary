@@ -1,15 +1,12 @@
 <!DOCTYPE html>
 <html>
-<%c++
-    auto project_name=@@.get<std::string>("project_name");
-%>
     <head>
-        <link rel="stylesheet" href="index.css">
-        <title>[[ project_name ]]</title>
+        <link rel="stylesheet" href="style/style.css">
+        <title>Infirmary</title>
     </head>
     <body>
         <div>
-            <h1>Welcome to [[ project_name ]]</h1>
+            <h1>Welcome to Infirmary</h1>
         </div>
         <div>
             <a href="register"><input type="button" value="New patient"></a>

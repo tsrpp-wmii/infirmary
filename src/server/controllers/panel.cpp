@@ -1,5 +1,7 @@
 #include <drogon/HttpController.h>
 
+#include "tools.hpp"
+
 class Panel : public drogon::HttpController<Panel>
 {
 public:
@@ -15,9 +17,7 @@ protected:
         drogon::HttpResponsePtr resp;
         if (loggedIn == false)
         {
-            // TODO:: select of a appropriate proctol needs to be refined
-            const auto redirectionUrl = "http://" + req->getHeader("host") + "/login";
-            resp = drogon::HttpResponse::newRedirectionResponse(redirectionUrl);
+            resp = drogon::HttpResponse::newRedirectionResponse(tsrpp::createUrl("/login"));
         }
         else
         {

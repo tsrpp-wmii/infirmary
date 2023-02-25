@@ -33,10 +33,13 @@ void Server::run()
         PORT
     );
 
+    // TODO: it should be placed in json instead of hard-coded
     drogon::app()
         .setDocumentRoot(DOCUMENT_ROOT_PATH)
         .enableSession(24h)
+        .setSSLFiles("", "") // TODO: fix ssl
         .addListener(IP, PORT)
+        .addListener(IP, 443)
         .run();
 }
 }

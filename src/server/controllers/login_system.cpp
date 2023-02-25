@@ -1,6 +1,8 @@
 #include <drogon/HttpSimpleController.h>
 #include <drogon/HttpResponse.h>
 
+#include "tools.hpp"
+
 class LoginController : public drogon::HttpSimpleController<LoginController>
 {
 public:
@@ -12,8 +14,39 @@ public:
         const drogon::HttpRequestPtr& req,
         std::function<void(const drogon::HttpResponsePtr&)>&& callback) override
     {
-        auto resp = drogon::HttpResponse::newHttpResponse();
-        resp->setBody("login");
+        drogon::HttpResponsePtr resp;
+
+        const auto method = req->method();
+        auto loginAttempt = false;
+        if (method == drogon::HttpMethod::Post)
+        {
+            std::string pesel = req->getParameter("pesel");
+            std::string passwd = req->getParameter("passwd");
+            std::string securePasswd = tsrpp::createHash("password123");
+
+            if (pesel == "root" && tsrpp::validatePassword(passwd, securePasswd))
+            {
+                auto tmp = tsrpp::createUrl("/panel");
+                std::cout << tmp << "\n";
+                resp = drogon::HttpResponse::newRedirectionResponse(tmp);
+                req->session()->insert("loggedIn", true);
+                callback(resp);
+                return;
+            }
+            else
+            {
+                loginAttempt = true;
+            }
+        }
+
+        drogon::HttpViewData data;
+        data.insert("loginAttempt", loginAttempt);
+
+        resp = drogon::HttpResponse::newHttpViewResponse("login", data);
+        // if (!loginAttempt)
+        // {
+        //     resp->setStatusCode(drogon::k401Unauthorized);
+        // }
         callback(resp);
     }
 };
@@ -29,8 +62,9 @@ public:
         const drogon::HttpRequestPtr& req,
         std::function<void(const drogon::HttpResponsePtr&)>&& callback) override
     {
-        auto resp = drogon::HttpResponse::newHttpResponse();
-        resp->setBody("logout");
+        const auto redirectionUrl = tsrpp::createUrl("/login");
+        drogon::HttpResponsePtr resp = drogon::HttpResponse::newRedirectionResponse(redirectionUrl);
+        req->session()->erase("loggedIn");
         callback(resp);
     }
 };
