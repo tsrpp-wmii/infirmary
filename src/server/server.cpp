@@ -24,17 +24,11 @@ Server::~Server()
 void Server::run()
 {
     // TODO: Compilation date and time should be printed below
-    fmt::print("Server::{} built at {} started on http://{}:{} !\n", PROJECT_NAME, "[TODO]", IP, PORT);
-    drogon::app().registerHandler(
-        "/",
-        [](const drogon::HttpRequestPtr&,
-           std::function<void(const drogon::HttpResponsePtr&)>&& callback) {
-            auto resp = drogon::HttpResponse::newHttpResponse();
-            resp->setBody("Hello, World!");
-            callback(resp);
-        },
-        {drogon::Get});
+    fmt::print("Server::{} built at {} started on \033[31mhttp://{}:{}\033[0m !\n", PROJECT_NAME, "[TODO]", IP, PORT);
 
-    drogon::app().addListener(IP, PORT).run();
+    drogon::app()
+        .setDocumentRoot(DOCUMENT_ROOT_PATH)
+        .addListener(IP, PORT)
+        .run();
 }
 }

@@ -1,11 +1,11 @@
 #include <drogon/HttpSimpleController.h>
 #include <drogon/HttpResponse.h>
 
-class HelloViewController : public drogon::HttpSimpleController<HelloViewController>
+class IndexViewController : public drogon::HttpSimpleController<IndexViewController>
 {
   public:
     PATH_LIST_BEGIN
-    PATH_ADD("/view");
+    PATH_ADD("/");
     PATH_LIST_END
 
     void asyncHandleHttpRequest(
@@ -13,8 +13,13 @@ class HelloViewController : public drogon::HttpSimpleController<HelloViewControl
         std::function<void(const drogon::HttpResponsePtr&)>&& callback) override
     {
         drogon::HttpViewData data;
-        data["name"] = req->getParameter("name");
-        auto resp = drogon::HttpResponse::newHttpViewResponse("hello", data);
+
+        std::string projectName{PROJECT_NAME};
+        projectName.front() = std::toupper(projectName.front());
+        data.insert("project_name", std::move(projectName));
+
+        // ISSUE: drogon doesn't allow to name csp files as index
+        auto resp = drogon::HttpResponse::newHttpViewResponse("index_", data);
         callback(resp);
     }
 };
