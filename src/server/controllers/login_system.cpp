@@ -16,8 +16,8 @@ public:
     {
         drogon::HttpResponsePtr resp;
 
-        const auto method = req->method();
-        auto loginAttempt = false;
+        const auto method{req->method()};
+        bool loginAttempt{};
         if (method == drogon::HttpMethod::Post)
         {
             std::string pesel = req->getParameter("pesel");

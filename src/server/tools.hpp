@@ -30,7 +30,7 @@ inline std::string hashPassword(const std::string& password)
 
     const EVP_MD* md{};
     EVP_MD_CTX* context{};
-    std::array<unsigned char, EVP_MAX_MD_SIZE>hash;
+    std::array<unsigned char, EVP_MAX_MD_SIZE> hash;
     unsigned int hashLen;
 
     md = EVP_sha256();
@@ -41,12 +41,11 @@ inline std::string hashPassword(const std::string& password)
     EVP_DigestFinal_ex(context, hash.data(), &hashLen);
     EVP_MD_CTX_free(context);
 
-    char hexstring[hashLen * 2 + 1];
+    std::string result(hashLen * 2, '\0');
     for (unsigned int i{}; i < hashLen; ++i)
-        sprintf(&hexstring[i * 2], "%02x", hash[i]);
-    hexstring[hashLen * 2] = '\0';
+        sprintf(&result[i*2], "%02x", hash[i]);
 
-    return std::string(hexstring);
+    return result;
 }
 
 inline bool verifyPassword(const std::string& password, const std::string& hash)
@@ -54,9 +53,12 @@ inline bool verifyPassword(const std::string& password, const std::string& hash)
     return (hashPassword(password) == hash);
 }
 
-// TODO:: Temporary function untill ssl will be provided
 inline std::string createUrl(const std::string& path)
 {
+#ifdef _DEBUG
     return "http://" + std::string{DOMAIN_NAME} + path;
+#else
+    return "https://" + std::string{DOMAIN_NAME} + path;
+#endif
 }
 }
