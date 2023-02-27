@@ -4,6 +4,8 @@
 
 #include "tools.hpp"
 
+#include <memory>
+
 namespace tsrpp
 {
 class Server final
@@ -11,7 +13,7 @@ class Server final
     NOT_COPYABLE_AND_MOVEABLE(Server);
 public:
     Server();
-    ~Server();
+    ~Server() = default;
 
     void run();
 };

@@ -1,0 +1,22 @@
+<%c++
+    // TODO: I don't care about perf inside csp files, but it wouldn't hurt to take a look
+%>
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="style/style.css">
+        <title>Infirmary</title>
+    </head>
+    <body>
+        <div>
+            <h1>Welcome to Infirmary</h1>
+        </div>
+        <div>
+            <a href="register"><input type="button" value="New patient"></a>
+            <a href="login"><input type="button" value="Existing patient"></a>
+        </div>
+        <div>
+            <p class="hello">Hello world!</p>
+        </div>
+    </body>
+</html>
