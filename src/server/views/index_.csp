@@ -1,3 +1,6 @@
+<%c++
+    // TODO: I don't care about perf inside csp files, but it wouldn't hurt to take a look
+%>
 <!DOCTYPE html>
 <html>
     <head>

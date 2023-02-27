@@ -3,9 +3,11 @@
 #include "SQLiteCpp/SQLiteCpp.h"
 
 #include <iostream>
+#include <stdexcept>
 
 namespace tsrpp
 {
+// TODO: This class definitely needs to be refactored
 class Database final
 {
     NOT_COPYABLE_AND_MOVEABLE(Database);

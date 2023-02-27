@@ -7,6 +7,7 @@
 #include <cstring>
 #include <array>
 #include <string>
+#include <stdexcept>
 
 #define NOT_COPYABLE(TypeName)           \
 TypeName(const TypeName&)=delete;        \
@@ -68,10 +69,10 @@ inline bool verifyPassword(const std::string& password, const std::string& hash)
 
 inline std::string createUrl(const std::string& path)
 {
-#ifdef _DEBUG
-    return "http://" + std::string{DOMAIN_NAME} + path;
-#else
+#ifdef NDEBUG
     return "https://" + std::string{DOMAIN_NAME} + path;
+#else
+    return "http://" + std::string{DOMAIN_NAME} + path;
 #endif
 }
 }

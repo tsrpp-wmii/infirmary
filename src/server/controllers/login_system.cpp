@@ -12,6 +12,11 @@ public:
     PATH_ADD("/login");
     PATH_LIST_END
 
+    enum class LoginStatus
+    {
+        
+    };
+
     void asyncHandleHttpRequest(
         const drogon::HttpRequestPtr& req,
         std::function<void(const drogon::HttpResponsePtr&)>&& callback) override
@@ -57,7 +62,7 @@ public:
         const drogon::HttpRequestPtr& req,
         std::function<void(const drogon::HttpResponsePtr&)>&& callback) override
     {
-        const auto redirectionUrl = tsrpp::createUrl("/login");
+        const auto redirectionUrl = tsrpp::createUrl("/");
         drogon::HttpResponsePtr resp = drogon::HttpResponse::newRedirectionResponse(redirectionUrl);
         req->session()->erase("loggedIn");
         callback(resp);
