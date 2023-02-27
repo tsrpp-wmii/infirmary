@@ -6,6 +6,7 @@
 #include <string_view>
 #include <cstring>
 #include <array>
+#include <string>
 
 #define NOT_COPYABLE(TypeName)           \
 TypeName(const TypeName&)=delete;        \

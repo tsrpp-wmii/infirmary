@@ -15,12 +15,12 @@ add_library(${PROJECT_NAME}
     ${SRC_FILES}
 )
 
-set(DATABASE_PATH database.db3)
+set(DATABASE_PATH database.db)
 get_filename_component(ABSOLUTE_DATABASE_PATH ${DATABASE_PATH} ABSOLUTE)
 
 target_compile_definitions(${PROJECT_NAME} PUBLIC PROJECT_NAME="${CMAKE_PROJECT_NAME}")
 target_compile_definitions(${PROJECT_NAME} PUBLIC DOMAIN_NAME="$<IF:$<CONFIG:Debug>,localhost,infirmary.damian-tomczak.pl>")
-target_compile_definitions(${PROJECT_NAME} PRIVATE DATABASE_PATH="${EXTERNAL_DATABASE_PATH}")
+target_compile_definitions(${PROJECT_NAME} PUBLIC DATABASE_PATH="${ABSOLUTE_DATABASE_PATH}")
 target_compile_definitions(${PROJECT_NAME} PRIVATE DOCUMENT_ROOT_PATH="${CMAKE_CURRENT_SOURCE_DIR}/views")
 target_compile_definitions(${PROJECT_NAME} PUBLIC $<$<BOOL:${SQLITECPP_ENABLE_ASSERT_HANDLER}>:SQLITECPP_ENABLE_ASSERT_HANDLER>)
 

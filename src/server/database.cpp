@@ -20,7 +20,7 @@ Database::Database(const int flags) :
     }
     catch(const std::exception& e)
     {
-        std::cerr << "tsrpp::Database " << e.what() << '\n';
+        std::cerr << "\033[0;34mtsrpp::Database\033[0m " << e.what() << '\n';
     }
 }
 
@@ -34,7 +34,7 @@ void Database::addUser(
 {
     try
     {
-        SQLite::Statement query{*mDatabase, "INSERT INTO users (pesel, password, first_name, last_name, email, activate)"
+        SQLite::Statement query{*mDatabase, "INSERT INTO users(pesel, password, first_name, last_name, email, active)"
             "VALUES (:pesel, :password, :first_name, :last_name, :email, 0)"};
 
         query.bind(":pesel", pesel);
@@ -42,10 +42,12 @@ void Database::addUser(
         query.bind(":first_name", firstName);
         query.bind(":last_name", lastName);
         query.bind(":email", email);
+
+        query.exec();
     }
     catch (std::exception& e)
     {
-        std::cerr << "tsrpp::Database " << e.what() << '\n';
+        std::cerr << "\033[0;34mtsrpp::Database\033[0m " << e.what() << '\n';
     }
 }
 }
