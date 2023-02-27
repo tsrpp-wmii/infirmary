@@ -11,6 +11,7 @@ int main()
     }
     catch(const std::exception& e)
     {
+        std::cout << "bla\n";
         std::cerr << e.what() << '\n';
         return EXIT_FAILURE;
     }
