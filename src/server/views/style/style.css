@@ -1,3 +1,15 @@
 .hello {
     color: red;
 }
+
+form ul {
+    display: table;
+}
+
+form li {
+    display: table-row;
+}
+
+form label, form input {
+    display: table-cell;
+}

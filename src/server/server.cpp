@@ -20,7 +20,6 @@ Server::Server()
 
 void Server::run()
 {
-    std::cout << DOMAIN_NAME << "\n";
     // TODO: Compilation date and time should be printed below
     fmt::print("\n\nServer::{} built at {} started on \033[31mhttp://{}:{}\033[0m !\n\n",
         PROJECT_NAME,

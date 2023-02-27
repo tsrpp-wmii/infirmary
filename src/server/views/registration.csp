@@ -1,0 +1,52 @@
+<%c++
+    auto registrationStatus= @@.get<int>("registrationStatus");
+    if (registrationStatus)
+    {
+        auto message = "registration failure";
+        $$ << message;
+    }
+%>
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="style/style.css">
+        <title>Infirmary</title>
+    </head>
+    <body>
+        <div>
+            <h1>Registration panel</h1>
+        </div>
+        <div>
+            <form action="register" method="post">
+            <ul>
+                <li>
+                    <label for="firstName">First Name:</label>
+                    <input id="firstName" type="text" name="firstName">
+                </li>
+                <li>
+                    <label for="lastName">Last Name:</label>
+                    <input id="lastName" type="text" name="lastName"> 
+                </li>
+                <li>
+                    <label for="email">Email:</label>
+                    <input id="email" type="text" name="email">
+                </li>
+                <li>
+                    <label for="pesel">PESEL:</label>
+                    <input id="pesl" type="text" name="pesel"> 
+                <li>
+                <li>
+                    <label for="password">Password:</label>
+                    <input id="password" type="password" name="password">
+                </li>
+                <li>
+                    <label for="repeatedPassword">Repeat password:</label>
+                    <input id="repeatedPassword" type="password" name="repeatedPassword">
+                </li>
+                <li>
+                    <input type="submit" value="Register">
+                </li>
+            </form>
+        </div>
+    </body>
+</html>
