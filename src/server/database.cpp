@@ -18,9 +18,9 @@ Database::Database(const int flags) :
     {
         mDatabase = std::make_unique<SQLite::Database>(DATABASE_PATH, flags);
     }
-    catch(const std::exception& e)
+    catch(const std::exception& exception)
     {
-        std::cerr << "\033[0;34mtsrpp::Database\033[0m " << e.what() << '\n';
+        fmt::print(std::cerr, fmt::format(fmt::fg(fmt::color::red), "tsrpp::Database::exception {}\n", exception.what()));
     }
 }
 
@@ -32,8 +32,7 @@ void Database::addUser(
     const std::string& password
     )
 {
-    try
-    {
+    auto method = [&]() {
         SQLite::Statement query{*mDatabase, "INSERT INTO users(pesel, password, first_name, last_name, email, active)"
             "VALUES (:pesel, :password, :first_name, :last_name, :email, 0)"};
 
@@ -44,10 +43,17 @@ void Database::addUser(
         query.bind(":email", email);
 
         query.exec();
-    }
-    catch (std::exception& e)
-    {
-        std::cerr << "\033[0;34mtsrpp::Database\033[0m " << e.what() << '\n';
-    }
+    };
+
+   execute(method);
 }
+
+void Database::execute(std::function<void(void)> method) {
+    try  {
+        method();
+    }
+    catch(std::exception& exception)  {
+        fmt::print(std::cerr, fmt::format(fmt::fg(fmt::color::red), "tsrpp::Database::exception {}\n", exception.what()));
+    }
+} 
 }

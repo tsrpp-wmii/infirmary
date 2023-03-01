@@ -29,8 +29,6 @@ target_include_directories(${PROJECT_NAME} PRIVATE
 
 target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE
     ${CMAKE_PROJECT_NAME}_lib
-    drogon
-    ssl
 )
 
 set_target_properties(${CMAKE_PROJECT_NAME} PROPERTIES

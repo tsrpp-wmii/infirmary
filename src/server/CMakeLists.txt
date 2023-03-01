@@ -36,12 +36,9 @@ target_include_directories(${PROJECT_NAME} PRIVATE
     ${ABSOLUTE_EXTERNAL_PATH}/fmt/include
 )
 
-target_link_libraries(${PROJECT_NAME} PRIVATE
-    drogon
-    fmt::fmt
-    ssl
-)
-
 target_link_libraries(${PROJECT_NAME} PUBLIC
     SQLiteCpp
+    fmt::fmt
+    drogon
+    ssl
 )

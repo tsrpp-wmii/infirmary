@@ -21,9 +21,11 @@ TypeName& operator=(TypeName&&) = delete;
 NOT_COPYABLE(TypeName)                      \
 NOT_MOVEABLE(TypeName)
 
+#define STR(x) #x
+
 namespace tsrpp
 {
-static constexpr std::string_view salt{"tsrpp"};
+inline constexpr std::string_view salt{"tsrpp"};
 
 inline std::string hashPassword(const std::string& password)
 {
@@ -70,9 +72,10 @@ inline bool verifyPassword(const std::string& password, const std::string& hash)
 inline std::string createUrl(const std::string& path)
 {
 #ifdef NDEBUG
-    return "https://" + std::string{DOMAIN_NAME} + path;
+    constexpr std::string_view prefix{"https://" DOMAIN_NAME};
 #else
-    return "http://" + std::string{DOMAIN_NAME} + path;
+    constexpr std::string_view prefix{"http://" DOMAIN_NAME};
 #endif
+    return std::string{prefix} + path;
 }
 }

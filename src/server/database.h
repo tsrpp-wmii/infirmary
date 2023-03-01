@@ -1,13 +1,16 @@
 #include "tools.hpp"
 
 #include "SQLiteCpp/SQLiteCpp.h"
+#include "fmt/core.h"
+#include "fmt/color.h"
+#include "fmt/ostream.h"
 
 #include <iostream>
 #include <stdexcept>
+#include <functional>
 
 namespace tsrpp
 {
-// TODO: This class definitely needs to be refactored
 class Database final
 {
     NOT_COPYABLE_AND_MOVEABLE(Database);
@@ -24,6 +27,8 @@ public:
     );
 
 private:
+    void execute(std::function<void(void)> method);
+
     std::unique_ptr<SQLite::Database> mDatabase;
 };
 }
