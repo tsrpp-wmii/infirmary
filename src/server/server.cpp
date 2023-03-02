@@ -10,8 +10,6 @@ using namespace std::chrono_literals;
 // TODO: Handle this at the level of cmake
 #define IP "127.0.0.1"
 #define PORT 80
-#define STR(x) #x
-#define XSTR(x) STR(x)
 
 namespace tsrpp
 {
@@ -26,7 +24,7 @@ void Server::run()
 #ifdef NDEBUG
     constexpr std::string_view startUrl{"https://" IP ":" STR(PORT)};
 #else
-    constexpr std::string_view startUrl{"http://" IP ":" XSTR(PORT)};
+    constexpr std::string_view startUrl{"http://" IP ":" STR(PORT)};
 #endif
     // TODO: Compilation date and time should be printed below
     fmt::print("\nServer::{} built at {} started on {} !\n\n",

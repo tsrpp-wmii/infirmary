@@ -2,13 +2,17 @@ cmake_minimum_required(VERSION 3.10)
 
 project(infirmary VERSION 0.0.1 LANGUAGES CXX)
 
-set(EXTERNAL_PATH "external")
-
-get_filename_component(ABSOLUTE_EXTERNAL_PATH ${EXTERNAL_PATH} ABSOLUTE)
+if(NOT UNIX AND NOT CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+    message(WARNING "Config was only tested on UNIX system and GNU compiler!")
+endif()
 
 if(NOT DEFINED ${CMAKE_BUILD_TYPE})
     set(CMAKE_BUILD_TYPE "Debug")
 endif()
+
+set(EXTERNAL_PATH "external")
+
+get_filename_component(ABSOLUTE_EXTERNAL_PATH ${EXTERNAL_PATH} ABSOLUTE)
 
 set(BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
 add_subdirectory(${ABSOLUTE_EXTERNAL_PATH}/drogon)
@@ -22,10 +26,6 @@ set(SQLITECPP_RUN_CPPLINT OFF CACHE BOOL "" FORCE)
 add_subdirectory(${ABSOLUTE_EXTERNAL_PATH}/SQLiteCpp)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
-
-if(NOT UNIX AND NOT CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-    message(WARNING "Config with UNIX system and GNU compiler was only tested!")
-endif()
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED True)

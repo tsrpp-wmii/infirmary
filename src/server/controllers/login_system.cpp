@@ -14,7 +14,10 @@ public:
 
     enum class LoginStatus
     {
-        
+        DEFAULT,
+        UNEXPECTED,
+        FAILURE,
+        SUCCESS
     };
 
     void asyncHandleHttpRequest(
@@ -79,6 +82,7 @@ public:
     enum class RegistrationStatus
     {
         DEFAULT,
+        UNEXPECTED,
         INCORRECT_PASSWORD,
         DIFFERENT_PASSWORDS,
         INCORRECT_MAIL,
@@ -95,10 +99,6 @@ public:
         RegistrationStatus registrationStatus{};
         if (req->method() == drogon::HttpMethod::Post)
         {
-            std::string firstName = req->getParameter("firstName");
-            std::string lastName = req->getParameter("lastName");
-            std::string email = req->getParameter("email");
-            std::string pesel = req->getParameter("pesel");
             std::string password = req->getParameter("password");
             std::string repeatedPassword = req->getParameter("repeatedPassword");
 
@@ -111,13 +111,15 @@ public:
             std::string hashedPassword = tsrpp::hashPassword(password);
 
             tsrpp::Database database{SQLite::OPEN_READWRITE};
-            database.addUser(
-                firstName,
-                lastName,
-                email,
-                pesel,
-                hashedPassword
-            );
+            if (!database.addUser({
+                .pesel{req->getParameter("pesel")},
+                .password{std::move(hashedPassword)},
+                .first_name{req->getParameter("firstName")},
+                .last_name{req->getParameter("lastName")},
+                .email{req->getParameter("email")}}))
+            {
+                registrationStatus = RegistrationStatus::UNEXPECTED;
+            }
 
             registrationStatus = RegistrationStatus::SUCCESS;
         }

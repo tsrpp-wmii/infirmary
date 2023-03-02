@@ -8,26 +8,33 @@
 #include <iostream>
 #include <stdexcept>
 #include <functional>
+#include <optional>
 
 namespace tsrpp
 {
 class Database final
 {
     NOT_COPYABLE_AND_MOVEABLE(Database);
+
 public:
     Database(const int flags = SQLite::OPEN_READONLY);
     ~Database() = default;
 
-    void addUser(
-        const std::string& firstName,
-        const std::string& lastName,
-        const std::string& email,
-        const std::string& pesel,
-        const std::string& password
-    );
+    struct User
+    {
+        std::int32_t id;
+        std::string pesel;
+        std::string password;
+        std::string first_name;
+        std::string last_name;
+        std::string email;
+        std::int32_t active;
+    };
+    bool addUser(User&& user);
+    std::optional<User> getUser(const std::string& pesel);
 
 private:
-    void execute(std::function<void(void)> method);
+    bool execute(std::function<void(void)> method);
 
     std::unique_ptr<SQLite::Database> mDatabase;
 };

@@ -1,5 +1,5 @@
 <%c++
-    auto registrationStatus= @@.get<int>("registrationStatus");
+    auto registrationStatus = @@.get<int>("registrationStatus");
     if (registrationStatus)
     {
         std::ostringstream message;
@@ -8,18 +8,21 @@
         switch (registrationStatus)
         {
         case 1:
-            message << "Registration failure: incorrect password format";
+            message << "Registration failure: unexpected error";
             break;
         case 2:
-            message << "Registration failure: your passwords are different";
+            message << "Registration failure: incorrect password format";
             break;
         case 3:
-            message << "Registration failure: incorrect email format";
+            message << "Registration failure: your passwords are different";
             break;
         case 4:
-            message << "Registration failure: incorrect pesel format";
+            message << "Registration failure: incorrect email format";
             break;
         case 5:
+            message << "Registration failure: incorrect pesel format";
+            break;
+        case 6:
             message << "<p>Your request has been registered</p>"
                 "<p>You will get email soon with the result of your request</p>";
             break;

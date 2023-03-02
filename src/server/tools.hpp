@@ -21,7 +21,8 @@ TypeName& operator=(TypeName&&) = delete;
 NOT_COPYABLE(TypeName)                      \
 NOT_MOVEABLE(TypeName)
 
-#define STR(x) #x
+#define XSTR(x) #x
+#define STR(x) XSTR(x)
 
 namespace tsrpp
 {
