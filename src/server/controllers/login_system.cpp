@@ -1,7 +1,9 @@
+#include "tools.hpp"
+#include "database.h"
+
 #include <drogon/HttpSimpleController.h>
 #include <drogon/HttpResponse.h>
 
-#include "tools.hpp"
 
 class LoginController : public drogon::HttpSimpleController<LoginController>
 {
@@ -10,21 +12,28 @@ public:
     PATH_ADD("/login");
     PATH_LIST_END
 
+    enum class LoginStatus
+    {
+        DEFAULT,
+        UNEXPECTED,
+        FAILURE,
+        SUCCESS
+    };
+
     void asyncHandleHttpRequest(
         const drogon::HttpRequestPtr& req,
         std::function<void(const drogon::HttpResponsePtr&)>&& callback) override
     {
         drogon::HttpResponsePtr resp;
 
-        const auto method{req->method()};
         bool loginAttempt{};
-        if (method == drogon::HttpMethod::Post)
+        if (req->method() == drogon::HttpMethod::Post)
         {
             std::string pesel = req->getParameter("pesel");
-            std::string passwd = req->getParameter("passwd");
-            std::string securePasswd = tsrpp::hashPassword("password123");
+            std::string password = req->getParameter("passwd");
+            std::string hashedPassword = tsrpp::hashPassword("password123");
 
-            if (pesel == "root" && tsrpp::verifyPassword(passwd, securePasswd))
+            if (pesel == "root" && tsrpp::verifyPassword(password, hashedPassword))
             {
                 resp = drogon::HttpResponse::newRedirectionResponse(tsrpp::createUrl("/panel"));
                 req->session()->insert("loggedIn", true);
@@ -56,7 +65,7 @@ public:
         const drogon::HttpRequestPtr& req,
         std::function<void(const drogon::HttpResponsePtr&)>&& callback) override
     {
-        const auto redirectionUrl = tsrpp::createUrl("/login");
+        const auto redirectionUrl = tsrpp::createUrl("/");
         drogon::HttpResponsePtr resp = drogon::HttpResponse::newRedirectionResponse(redirectionUrl);
         req->session()->erase("loggedIn");
         callback(resp);
@@ -70,12 +79,55 @@ public:
     PATH_ADD("/register");
     PATH_LIST_END
 
+    enum class RegistrationStatus
+    {
+        DEFAULT,
+        UNEXPECTED,
+        INCORRECT_PASSWORD,
+        DIFFERENT_PASSWORDS,
+        INCORRECT_MAIL,
+        INCORRECT_PESEL,
+        SUCCESS
+    };
+
     void asyncHandleHttpRequest(
         const drogon::HttpRequestPtr& req,
         std::function<void(const drogon::HttpResponsePtr&)>&& callback) override
     {
-        auto resp = drogon::HttpResponse::newHttpResponse();
-        resp->setBody("register");
+        drogon::HttpResponsePtr resp;
+
+        RegistrationStatus registrationStatus{};
+        if (req->method() == drogon::HttpMethod::Post)
+        {
+            std::string password = req->getParameter("password");
+            std::string repeatedPassword = req->getParameter("repeatedPassword");
+
+            // TODO: other registration's failures should be handled
+            if (password != repeatedPassword)
+            {
+                registrationStatus = RegistrationStatus::DIFFERENT_PASSWORDS;
+            }
+
+            std::string hashedPassword = tsrpp::hashPassword(password);
+
+            tsrpp::Database database{SQLite::OPEN_READWRITE};
+            if (!database.addUser({
+                .pesel{req->getParameter("pesel")},
+                .password{std::move(hashedPassword)},
+                .first_name{req->getParameter("firstName")},
+                .last_name{req->getParameter("lastName")},
+                .email{req->getParameter("email")}}))
+            {
+                registrationStatus = RegistrationStatus::UNEXPECTED;
+            }
+
+            registrationStatus = RegistrationStatus::SUCCESS;
+        }
+
+        drogon::HttpViewData data;
+        data.insert("registrationStatus", static_cast<int>(registrationStatus));
+
+        resp = drogon::HttpResponse::newHttpViewResponse("registration", data);
         callback(resp);
     }
 };

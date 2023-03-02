@@ -1,0 +1,83 @@
+<%c++
+    auto registrationStatus = @@.get<int>("registrationStatus");
+    if (registrationStatus)
+    {
+        std::ostringstream message;
+        message << "<div>";
+        message << "<div>";
+        switch (registrationStatus)
+        {
+        case 1:
+            message << "Registration failure: unexpected error";
+            break;
+        case 2:
+            message << "Registration failure: incorrect password format";
+            break;
+        case 3:
+            message << "Registration failure: your passwords are different";
+            break;
+        case 4:
+            message << "Registration failure: incorrect email format";
+            break;
+        case 5:
+            message << "Registration failure: incorrect pesel format";
+            break;
+        case 6:
+            message << "<p>Your request has been registered</p>"
+                "<p>You will get email soon with the result of your request</p>";
+            break;
+        default:
+            message << "Something went wrong";
+            break;
+        }
+        message << "</div>";
+        message << "<a href=\"/\"><input type=\"button\" value=\"Return\"></a>";
+        message << "</div>";
+
+        $$ << message.str();
+    }
+%>
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="style/style.css">
+        <title>Infirmary</title>
+    </head>
+    <body>
+        <div>
+            <h1>Registration panel</h1>
+        </div>
+        <div>
+            <form action="register" method="post">
+            <ul>
+                <li>
+                    <label for="firstName">First Name:</label>
+                    <input id="firstName" type="text" name="firstName">
+                </li>
+                <li>
+                    <label for="lastName">Last Name:</label>
+                    <input id="lastName" type="text" name="lastName"> 
+                </li>
+                <li>
+                    <label for="email">Email:</label>
+                    <input id="email" type="text" name="email">
+                </li>
+                <li>
+                    <label for="pesel">PESEL:</label>
+                    <input id="pesl" type="text" name="pesel"> 
+                <li>
+                <li>
+                    <label for="password">Password:</label>
+                    <input id="password" type="password" name="password">
+                </li>
+                <li>
+                    <label for="repeatedPassword">Repeat password:</label>
+                    <input id="repeatedPassword" type="password" name="repeatedPassword">
+                </li>
+                <li>
+                    <input type="submit" value="Register">
+                </li>
+            </form>
+        </div>
+    </body>
+</html>
