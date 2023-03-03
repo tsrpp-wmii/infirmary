@@ -14,10 +14,10 @@ namespace tsrpp
 {
 class Database final
 {
-    NOT_COPYABLE_AND_MOVEABLE(Database);
-
 public:
-    Database(const int flags = SQLite::OPEN_READONLY);
+    Database(const int flags = SQLite::OPEN_READONLY) :
+        mDatabase{std::make_unique<SQLite::Database>(DATABASE_PATH, flags)}
+    {}
     ~Database() = default;
 
     struct User
@@ -30,12 +30,10 @@ public:
         std::string email;
         std::int32_t active;
     };
-    bool addUser(User&& user);
-    std::optional<User> getUser(const std::string& pesel);
+    bool addUser(const User& user);
+    std::optional<Database::User> getUser(const std::string& pesel);
 
 private:
-    bool execute(std::function<void(void)> method);
-
     std::unique_ptr<SQLite::Database> mDatabase;
 };
 }
