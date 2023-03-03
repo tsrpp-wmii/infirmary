@@ -1,11 +1,3 @@
-<%c++
-    auto loginAttempt = @@.get<bool>("loginAttempt");
-    if (loginAttempt)
-    {
-        auto message = "login failure";
-        $$ << message;
-    }
-%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -33,5 +25,34 @@
                 </ul>
             </form>
         </div>
+        <div>
+            <a href="register">Register instead</a>
+        </div>
     </body>
 </html>
+
+<%c++
+    auto loginStatus = @@.get<int>("loginStatus");
+    if (loginStatus)
+    {
+        std::ostringstream message;
+        message << "<script>";
+        message << "alert(\"";
+        switch (loginStatus)
+        {
+        case 1:
+            message << "Login failure: incorrect pesel format";
+            break;
+        case 2:
+            message << "Login failure: incorrect password format";
+            break;
+        case 3:
+            message << "Login failure: wrong credentials";
+            break;
+        }
+        message << "\")";
+        message << "</script>";
+
+        $$ << message.str();
+    }
+%>

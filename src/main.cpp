@@ -14,9 +14,9 @@ int main()
         tsrpp::Server server;
         server.run();
     }
-    catch(const std::exception& exception)
+    catch(const std::exception& e)
     {
-        fmt::print(std::cerr, fmt::format(fmt::fg(fmt::color::red), "main::exception {}\n", exception.what()));
+        fmt::print(std::cerr, fmt::format(fmt::fg(fmt::color::red), "main::exception {}\n", e.what()));
         return EXIT_FAILURE;
     }
 
