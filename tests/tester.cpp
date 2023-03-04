@@ -8,6 +8,8 @@ TEST(DummyTests, Dummytest)
     ASSERT_EQ(expected, multiplication);
 }
 
+// TODO: unit test testing connection with a database
+
 int main(int argc, char** argv)
 {
     ::testing::InitGoogleTest(&argc, argv);

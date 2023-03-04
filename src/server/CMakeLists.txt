@@ -15,13 +15,15 @@ add_library(${PROJECT_NAME}
     ${SRC_FILES}
 )
 
-set(DATABASE_PATH database.db)
+set(DATABASE_PATH ${ABSOLUTE_DATA_PATH}/database.db)
 get_filename_component(ABSOLUTE_DATABASE_PATH ${DATABASE_PATH} ABSOLUTE)
+set(DOCUMENT_ROOT_PATH ${ABSOLUTE_DATA_PATH}/document_root)
+get_filename_component(ABSOLUTE_DOCUMENT_ROOT_PATH ${DOCUMENT_ROOT_PATH} ABSOLUTE)
 
 target_compile_definitions(${PROJECT_NAME} PUBLIC PROJECT_NAME="${CMAKE_PROJECT_NAME}")
 target_compile_definitions(${PROJECT_NAME} PUBLIC DOMAIN_NAME="$<IF:$<CONFIG:Debug>,localhost,infirmary.damian-tomczak.pl>")
 target_compile_definitions(${PROJECT_NAME} PUBLIC DATABASE_PATH="${ABSOLUTE_DATABASE_PATH}")
-target_compile_definitions(${PROJECT_NAME} PRIVATE DOCUMENT_ROOT_PATH="${CMAKE_CURRENT_SOURCE_DIR}/views")
+target_compile_definitions(${PROJECT_NAME} PRIVATE DOCUMENT_ROOT_PATH="${ABSOLUTE_DOCUMENT_ROOT_PATH}")
 target_compile_definitions(${PROJECT_NAME} PUBLIC $<$<BOOL:${SQLITECPP_ENABLE_ASSERT_HANDLER}>:SQLITECPP_ENABLE_ASSERT_HANDLER>)
 
 if(UNIX)

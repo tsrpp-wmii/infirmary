@@ -1,22 +1,114 @@
-<%c++
-    // TODO: I don't care about perf inside csp files, but it wouldn't hurt to take a look
-%>
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
-        <link rel="stylesheet" href="style/style.css">
+        <meta charset="utf-8">
         <title>Infirmary</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+        <meta name="theme-color" content="#712cf9">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
     </head>
     <body>
         <div>
-            <h1>Welcome to Infirmary</h1>
-        </div>
-        <div>
-            <a href="register"><input type="button" value="New patient"></a>
-            <a href="login"><input type="button" value="Existing patient"></a>
-        </div>
-        <div>
-            <p class="hello">Hello world!</p>
+            <div class="py-5 text-center container">
+                <div class="row py-lg-5">
+                    <div class="col-lg-6 col-md-8 mx-auto">
+                        <h1 class="fw-light">Infirmary</h1>
+                        <p class="lead text-muted">Something short and leading about the collection below—its contents, the creator, etc. Make it short and sweet, but not too short so folks don’t simply skip over it entirely.</p>
+                        <p>
+                            <a href="register" class="btn btn-secondary my-2">New patient</a>
+                            <a href="login" class="btn btn-primary my-2">Existing patient</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="py-5 bg-light">
+                <div class="container">
+                    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+                        <div class="col">
+                            <div class="card shadow-sm">
+                                <img width="100%" height="225" src="images/dummy.jpg"></img>
+                                <div class="card-body">
+                                    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="card shadow-sm">
+                                <img width="100%" height="225" src="images/dummy.jpg"></img>
+                                <div class="card-body">
+                                    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="card shadow-sm">
+                                <img width="100%" height="225" src="images/dummy.jpg"></img>
+                                <div class="card-body">
+                                    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="card shadow-sm">
+                                <img width="100%" height="225" src="images/dummy.jpg"></img>
+                                <div class="card-body">
+                                    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="card shadow-sm">
+                                <img width="100%" height="225" src="images/dummy.jpg"></img>
+                                <div class="card-body">
+                                    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="card shadow-sm">
+                                <img width="100%" height="225" src="images/dummy.jpg"></img>
+                                <div class="card-body">
+                                    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="card shadow-sm">
+                                <img width="100%" height="225" src="images/dummy.jpg"></img>
+                                <div class="card-body">
+                                    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="card shadow-sm">
+                                <img width="100%" height="225" src="images/dummy.jpg"></img>
+                                <div class="card-body">
+                                    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="card shadow-sm">
+                                <img width="100%" height="225" src="images/dummy.jpg"></img>
+                                <div class="card-body">
+                                    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="text-muted py-5">
+                <div class="container">
+                    <p class="float-end mb-1">
+                        <a href="#">Back to top</a>
+                    </p>
+                    <p class="mb-1">University assignment &copy; <a href="https://github.com/tsrpp-wmii">tsrpp-wmii</a></p>
+                    <p class="mb-0">Do you need help? <a href="mailto:contact@damian-tomczak.pl">contact@damian-tomczak.pl</a></p>
+                </div>
+            </div>
         </div>
     </body>
 </html>
