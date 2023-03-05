@@ -11,8 +11,9 @@ if(NOT DEFINED ${CMAKE_BUILD_TYPE})
 endif()
 
 set(EXTERNAL_PATH "external")
-
 get_filename_component(ABSOLUTE_EXTERNAL_PATH ${EXTERNAL_PATH} ABSOLUTE)
+set(DATA_PATH "data")
+get_filename_component(ABSOLUTE_DATA_PATH ${DATA_PATH} ABSOLUTE)
 
 set(BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
 add_subdirectory(${ABSOLUTE_EXTERNAL_PATH}/drogon)

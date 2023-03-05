@@ -10,6 +10,7 @@ form li {
     display: table-row;
 }
 
-form label, form input {
+form label, form input, form textarea {
     display: table-cell;
+    vertical-align: text-top;
 }

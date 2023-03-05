@@ -12,11 +12,12 @@
 
 namespace tsrpp
 {
+// TODO: use GLFS for database.db
 class Database final
 {
 public:
     Database(const int flags = SQLite::OPEN_READONLY) :
-        mDatabase{std::make_unique<SQLite::Database>(DATABASE_PATH, flags)}
+        mpDatabase{std::make_unique<SQLite::Database>(DATABASE_PATH, flags)}
     {}
     ~Database() = default;
 
@@ -28,12 +29,13 @@ public:
         std::string first_name;
         std::string last_name;
         std::string email;
-        std::int32_t active;
+        std::string note;
+        std::int32_t role;
     };
     bool addUser(const User& user);
     std::optional<Database::User> getUser(const std::string& pesel);
 
 private:
-    std::unique_ptr<SQLite::Database> mDatabase;
+    std::unique_ptr<SQLite::Database> mpDatabase;
 };
 }

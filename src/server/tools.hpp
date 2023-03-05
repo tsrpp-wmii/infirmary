@@ -11,11 +11,11 @@
 
 #define NOT_COPYABLE(TypeName)           \
 TypeName(const TypeName&)=delete;        \
-TypeName& operator=(TypeName&) = delete;
+TypeName& operator=(TypeName&)=delete;
 
 #define NOT_MOVEABLE(TypeName)            \
 TypeName(const TypeName&&)=delete;        \
-TypeName& operator=(TypeName&&) = delete;
+TypeName& operator=(TypeName&&)=delete;
 
 #define NOT_COPYABLE_AND_MOVEABLE(TypeName) \
 NOT_COPYABLE(TypeName)                      \
@@ -33,27 +33,27 @@ inline std::string hashPassword(const std::string& password)
     std::string passwordWithSalt(password);
     passwordWithSalt += salt;
 
-    const EVP_MD* md{};
-    EVP_MD_CTX* context{};
+    const EVP_MD* pMd{};
+    EVP_MD_CTX* pContext{};
     std::array<unsigned char, EVP_MAX_MD_SIZE> hash;
     unsigned int hashLen{};
-    auto errorCode = 1;
+    auto errorCode{1};
 
-    md = EVP_sha256();
-    context = EVP_MD_CTX_new();
-    if (md == nullptr || context == nullptr)
+    pMd = EVP_sha256();
+    pContext = EVP_MD_CTX_new();
+    if (pMd == nullptr || pContext == nullptr)
     {
         throw std::runtime_error{"OpenSSL couldn't create context"};
     }
 
-    errorCode = EVP_DigestInit_ex(context, md, nullptr);
-    errorCode = EVP_DigestUpdate(context, password.c_str(), password.size());
-    errorCode = EVP_DigestFinal_ex(context, hash.data(), &hashLen);
-    EVP_MD_CTX_free(context);
+    errorCode = EVP_DigestInit_ex(pContext, pMd, nullptr);
+    errorCode = EVP_DigestUpdate(pContext, password.c_str(), password.size());
+    errorCode = EVP_DigestFinal_ex(pContext, hash.data(), &hashLen);
+    EVP_MD_CTX_free(pContext);
 
     if (errorCode != 1)
     {
-        throw std::runtime_error{"OpenSSSl couldn't hashed the password"};
+        throw std::runtime_error{"OpenSSL couldn't hashed the password"};
     }
 
     std::string result(hashLen * 2, '\0');

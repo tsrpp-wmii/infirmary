@@ -6,7 +6,7 @@ class Panel : public drogon::HttpController<Panel>
 {
 public:
     METHOD_LIST_BEGIN
-    METHOD_ADD(::Panel::index, "", drogon::Get);
+    METHOD_ADD(::Panel::index, "");
     METHOD_LIST_END
 
 protected:
@@ -18,12 +18,12 @@ protected:
         if (loggedIn == false)
         {
             resp = drogon::HttpResponse::newRedirectionResponse(tsrpp::createUrl("/login"));
+            callback(resp);
+            return;
         }
-        else
-        {
-            resp = drogon::HttpResponse::newHttpResponse();
-            resp->setBody("loggedIn true");
-        }
+
+        drogon::HttpViewData data;
+        resp = drogon::HttpResponse::newHttpViewResponse("panel_patient_personal_informations.csp", data);
         callback(resp);
     }
 };

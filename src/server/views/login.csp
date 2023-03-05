@@ -1,3 +1,36 @@
+<%c++
+    auto loginStatus = @@.get<int>("loginStatus");
+    if (loginStatus)
+    {
+        std::ostringstream message;
+        message << "<script>";
+        // TODO: find something better than an alert
+        message << "window.onload = function() {";
+        message << "alert(\"";
+        switch (loginStatus)
+        {
+        case 1:
+            message << "You have been successfuly registered\\n"
+                "You may login now";
+            break;
+        case 2:
+            message << "Login failure: incorrect pesel format";
+            break;
+        case 3:
+            message << "Login failure: incorrect password format";
+            break;
+        case 4:
+            message << "Login failure: wrong credentials";
+            break;
+        }
+        message << "\")";
+        message << "}";
+        message << "</script>";
+
+        $$ << message.str();
+    }
+%>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -30,29 +63,3 @@
         </div>
     </body>
 </html>
-
-<%c++
-    auto loginStatus = @@.get<int>("loginStatus");
-    if (loginStatus)
-    {
-        std::ostringstream message;
-        message << "<script>";
-        message << "alert(\"";
-        switch (loginStatus)
-        {
-        case 1:
-            message << "Login failure: incorrect pesel format";
-            break;
-        case 2:
-            message << "Login failure: incorrect password format";
-            break;
-        case 3:
-            message << "Login failure: wrong credentials";
-            break;
-        }
-        message << "\")";
-        message << "</script>";
-
-        $$ << message.str();
-    }
-%>

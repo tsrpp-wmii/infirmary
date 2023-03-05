@@ -4,8 +4,7 @@ namespace SQLite
 {
 void assertion_failed(const char* apFile, const long apLine, const char* apFunc, const char* apExpr, const char* apMsg)
 {
-    std::cerr << apFile << ":" << apLine << ":" << " error: assertion failed (" << apExpr << ") in " << apFunc << "() with message \"" << apMsg << "\"\n";
-    std::abort();
+    assert(false && (std::string{apFile} + ":" + std::to_string(apLine) + ":" + " error: assertion failed (" + apExpr + ") in " + apFunc + "() with message \"" + apMsg + "\"\n").c_str());
 }
 }
 
@@ -13,16 +12,17 @@ namespace tsrpp
 {
 bool Database::addUser(const User& user)
 {
-    SQLite::Statement query{*mDatabase, "INSERT INTO users(pesel, password, first_name, last_name, email, active)"
-        "VALUES (:pesel, :password, :first_name, :last_name, :email, 0)"};
+    SQLite::Statement q{*mpDatabase, "INSERT INTO users(pesel, password, first_name, last_name, email, note, role)"
+        "VALUES (:pesel, :password, :first_name, :last_name, :email, :note, 0)"};
 
-    query.bind(":pesel", user.pesel);
-    query.bind(":password", user.password);
-    query.bind(":first_name", user.first_name);
-    query.bind(":last_name", user.last_name);
-    query.bind(":email", user.email);
+    q.bind(":pesel", user.pesel);
+    q.bind(":password", user.password);
+    q.bind(":first_name", user.first_name);
+    q.bind(":last_name", user.last_name);
+    q.bind(":email", user.email);
+    q.bind(":note", user.note);
 
-    if (query.exec() == 1)
+    if (q.exec() == 1)
     {
         return true;
     }
@@ -34,20 +34,21 @@ bool Database::addUser(const User& user)
 std::optional<Database::User> Database::getUser(const std::string& pesel)
 {
     std::optional<Database::User> result;
-    SQLite::Statement query{*mDatabase,
-        "SELECT * FROM users WHERE pesel=:pesel LIMIT 1"};
-    query.bind(":pesel", pesel);
+    SQLite::Statement q{*mpDatabase, "SELECT * FROM users WHERE pesel=:pesel LIMIT 1"};
 
-    if (query.executeStep())
+    q.bind(":pesel", pesel);
+
+    if (q.executeStep())
     {
         result = std::optional{User{
-            .id = query.getColumn("id"),
-            .pesel = query.getColumn("pesel"),
-            .password = query.getColumn("password"),
-            .first_name = query.getColumn("first_name"),
-            .last_name = query.getColumn("last_name"),
-            .email = query.getColumn("email"),
-            .active = query.getColumn("active")
+            .id{q.getColumn("id")},
+            .pesel{q.getColumn("pesel").getString()},
+            .password{q.getColumn("password").getString()},
+            .first_name{q.getColumn("first_name").getString()},
+            .last_name{q.getColumn("last_name").getString()},
+            .email{q.getColumn("email").getString()},
+            .note{q.getColumn("note").getString()},
+            .role{q.getColumn("role")}
         }};
     }
 
