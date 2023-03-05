@@ -1,6 +1,7 @@
-#include <drogon/HttpController.h>
-
 #include "tools.hpp"
+#include "database.h"
+
+#include <drogon/HttpController.h>
 
 class Panel : public drogon::HttpController<Panel>
 {
@@ -10,20 +11,22 @@ public:
     METHOD_LIST_END
 
 protected:
-    void index(const drogon::HttpRequestPtr& req,
+    void index(const drogon::HttpRequestPtr& pReq,
         std::function<void(const drogon::HttpResponsePtr&)>&& callback)
     {
-        bool loggedIn = req->session()->getOptional<bool>("loggedIn").value_or(false);
-        drogon::HttpResponsePtr resp;
-        if (loggedIn == false)
+        drogon::HttpResponsePtr pResp;
+        
+        auto user{pReq->session()->getOptional<tsrpp::Database::User>("user")};
+        if (!user)
         {
-            resp = drogon::HttpResponse::newRedirectionResponse(tsrpp::createUrl("/login"));
-            callback(resp);
+            pResp = drogon::HttpResponse::newRedirectionResponse(tsrpp::createUrl("/login"));
+            callback(pResp);
             return;
         }
 
         drogon::HttpViewData data;
-        resp = drogon::HttpResponse::newHttpViewResponse("panel_patient_personal_informations.csp", data);
-        callback(resp);
+        std::cout << user->id << std::endl;
+        pResp = drogon::HttpResponse::newHttpViewResponse("panel_patient_personal_informations.csp", data);
+        callback(pResp);
     }
 };

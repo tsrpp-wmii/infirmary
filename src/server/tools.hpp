@@ -8,6 +8,7 @@
 #include <array>
 #include <string>
 #include <stdexcept>
+#include <iostream>
 
 #define NOT_COPYABLE(TypeName)           \
 TypeName(const TypeName&)=delete;        \

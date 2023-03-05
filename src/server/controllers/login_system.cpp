@@ -55,8 +55,19 @@ public:
                 loginStatus = postLogin(pReq);
                 if (loginStatus == LoginStatus::SUCCESS)
                 {
+                    tsrpp::Database database{SQLite::OPEN_READWRITE};
                     pResp = drogon::HttpResponse::newRedirectionResponse(tsrpp::createUrl("/panel"));
-                    pReq->session()->insert("loggedIn", true);
+                    auto pesel{pReq->getOptionalParameter<std::string>("pesel")};
+                    if (!pesel)
+                    {
+                        throw std::runtime_error{"login was successful, after which the pesel couldn't be found"};
+                    }
+                    auto user{database.getUser(*pesel)};
+                    if (!user)
+                    {
+                        throw std::runtime_error{"login was successful, after which the user couldn't be found"};
+                    }
+                    pReq->session()->insert("user", *user);
                     callback(pResp);
                     return;
                 }
@@ -90,19 +101,19 @@ public:
         tsrpp::Database database{SQLite::OPEN_READWRITE};
 
         auto pesel{pReq->getOptionalParameter<std::string>("pesel")};
-        if ((!pesel.has_value()) || (pesel->length() == 0))
+        if ((!pesel) || (pesel->length() == 0))
         {
             return LoginStatus::INCORRECT_PESEL;
         }
 
         auto password{pReq->getOptionalParameter<std::string>("password")};
-        if ((!password.has_value()) || (password->length() == 0))
+        if ((!password) || (password->length() == 0))
         {
             return LoginStatus::INCORRECT_PASSWORD;
         }
 
         auto user{database.getUser(*pesel)};
-        if (user.has_value())
+        if (user)
         {
             if (tsrpp::verifyPassword(*password, user->password))
             {
@@ -202,37 +213,37 @@ public:
         tsrpp::Database database{SQLite::OPEN_READWRITE};
 
         auto firstName{pReq->getOptionalParameter<std::string>("firstName")};
-        if ((!firstName.has_value()) || (firstName->length() == 0))
+        if ((!firstName) || (firstName->length() == 0))
         {
             return RegistrationStatus::INCORRECT_FIRST_NAME;
         }
 
         auto lastName{pReq->getOptionalParameter<std::string>("lastName")};
-        if ((!lastName.has_value()) || (lastName->length() == 0))
+        if ((!lastName) || (lastName->length() == 0))
         {
             return RegistrationStatus::INCORRECT_LAST_NAME;
         }
 
         auto pesel{pReq->getOptionalParameter<std::string>("pesel")};
-        if ((!pesel.has_value()) || (pesel->length() == 0))
+        if ((!pesel) || (pesel->length() == 0))
         {
             return RegistrationStatus::INCORRECT_PESEL;
         }
 
         auto email{pReq->getOptionalParameter<std::string>("email")};
-        if ((!email.has_value()) || (email->length() == 0))
+        if ((!email) || (email->length() == 0))
         {
             return RegistrationStatus::INCORRECT_EMAIL;
         }
 
         auto password{pReq->getOptionalParameter<std::string>("password")};
-        if ((!password.has_value()) || (password->length() == 0))
+        if ((!password) || (password->length() == 0))
         {
             return RegistrationStatus::INCORRECT_PASSWORD;
         }
 
         auto hasUser{database.getUser(pesel.value())};
-        if (hasUser.has_value())
+        if (hasUser)
         {
             return RegistrationStatus::ALREADY_EXISTS;
         }
