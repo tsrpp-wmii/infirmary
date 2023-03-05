@@ -8,11 +8,11 @@ public:
     PATH_ADD("/");
     PATH_LIST_END
 
-    void asyncHandleHttpRequest(const drogon::HttpRequestPtr& req,
+    void asyncHandleHttpRequest(const drogon::HttpRequestPtr& pReq,
         std::function<void(const drogon::HttpResponsePtr&)>&& callback) override
     {
         // ISSUE: drogon doesn't allow to name csp files as index
-        auto resp = drogon::HttpResponse::newHttpViewResponse("index_");
-        callback(resp);
+        auto pResp = drogon::HttpResponse::newHttpViewResponse("index_");
+        callback(pResp);
     }
 };

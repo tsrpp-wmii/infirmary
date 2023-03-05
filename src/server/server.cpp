@@ -9,7 +9,11 @@ using namespace std::chrono_literals;
 
 // TODO: Handle this at the level of cmake
 #define IP "127.0.0.1"
-#define PORT 80
+#ifdef NDEBUG
+    #define PORT 443
+#else
+    #define PORT 80
+#endif
 
 namespace tsrpp
 {
@@ -41,7 +45,6 @@ void Server::run()
         .setSSLFiles("", "") // TODO: fix ssl
 #endif
         .addListener(IP, PORT)
-        .addListener(IP, 443)
         .run();
 }
 }
