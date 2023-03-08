@@ -1,32 +1,192 @@
-#include "tools.hpp"
-#include "database.h"
+#include "panel.h"
 
-#include <drogon/HttpController.h>
-
-class Panel : public drogon::HttpController<Panel>
+void Panel::index(const drogon::HttpRequestPtr& pReq,
+    std::function<void(const drogon::HttpResponsePtr&)>&& callback) try
 {
-public:
-    METHOD_LIST_BEGIN
-    METHOD_ADD(::Panel::index, "");
-    METHOD_LIST_END
+    drogon::HttpResponsePtr pResp;
 
-protected:
-    void index(const drogon::HttpRequestPtr& pReq,
-        std::function<void(const drogon::HttpResponsePtr&)>&& callback)
+    if (!LoginSystemController::isUserShouldSeeThis<true>(pReq, pResp))
     {
-        drogon::HttpResponsePtr pResp;
-        
-        auto user{pReq->session()->getOptional<tsrpp::Database::User>("user")};
-        if (!user)
-        {
-            pResp = drogon::HttpResponse::newRedirectionResponse(tsrpp::createUrl("/login"));
-            callback(pResp);
-            return;
-        }
-
-        drogon::HttpViewData data;
-        std::cout << user->id << std::endl;
-        pResp = drogon::HttpResponse::newHttpViewResponse("panel_patient_personal_informations.csp", data);
         callback(pResp);
+        return;
     }
-};
+
+    auto user{pReq->session()->getOptional<tsrpp::Database::User>("user")};
+    if (user->role == tsrpp::Database::User::Role::PATIENT)
+    {
+        pResp = drogon::HttpResponse::newRedirectionResponse(tsrpp::createUrl("/panel/patient"));
+    }
+    else if (user->role == tsrpp::Database::User::Role::DOCTOR)
+    {
+        pResp = drogon::HttpResponse::newRedirectionResponse(tsrpp::createUrl("/panel/doctor"));
+    }
+    else if (user->role == tsrpp::Database::User::Role::RECEPTIONIST)
+    {
+        pResp = drogon::HttpResponse::newRedirectionResponse(tsrpp::createUrl("/panel/receptionist"));
+    }
+    else
+    {
+        throw std::runtime_error{"Logged user doesn't belong to any category"};
+    }
+
+    callback(pResp);
+}
+catch(const std::exception& e)
+{
+    drogon::HttpResponsePtr pResp;
+    // TODO: code duplication
+    fmt::print(std::cerr, fmt::format(fmt::fg(fmt::color::red), "tsrpp::exception {}\n", e.what()));
+    pResp = drogon::HttpResponse::newHttpResponse();
+    pResp->setBody("Something went wrong...");
+    callback(pResp);
+}
+
+void Panel::patient(const drogon::HttpRequestPtr& pReq,
+    std::function<void(const drogon::HttpResponsePtr&)>&& callback) try
+{
+    drogon::HttpResponsePtr pResp;
+
+    if (!LoginSystemController::isUserShouldSeeThis(pReq, pResp, tsrpp::Database::User::Role::PATIENT))
+    {
+        callback(pResp);
+        return;
+    }
+
+    pResp = drogon::HttpResponse::newRedirectionResponse(tsrpp::createUrl(
+        "/panel/patient/personal"));
+    callback(pResp);
+}
+catch(const std::exception& e)
+{
+    drogon::HttpResponsePtr pResp;
+    // TODO: code duplication
+    fmt::print(std::cerr, fmt::format(fmt::fg(fmt::color::red), "tsrpp::exception {}\n", e.what()));
+    pResp = drogon::HttpResponse::newHttpResponse();
+    pResp->setBody("Something went wrong...");
+    callback(pResp);
+}
+
+void Panel::doctor(const drogon::HttpRequestPtr& pReq,
+    std::function<void(const drogon::HttpResponsePtr&)>&& callback) try
+{
+    drogon::HttpResponsePtr pResp;
+
+    if (!LoginSystemController::isUserShouldSeeThis(pReq, pResp, tsrpp::Database::User::Role::DOCTOR))
+    {
+        callback(pResp);
+        return;
+    }
+
+    pResp = drogon::HttpResponse::newRedirectionResponse(
+        tsrpp::createUrl("/panel/doctor/personal"));
+    callback(pResp);
+}
+catch(const std::exception& e)
+{
+    drogon::HttpResponsePtr pResp;
+    // TODO: code duplication
+    fmt::print(std::cerr, fmt::format(fmt::fg(fmt::color::red), "tsrpp::exception {}\n", e.what()));
+    pResp = drogon::HttpResponse::newHttpResponse();
+    pResp->setBody("Something went wrong...");
+    callback(pResp);
+}
+
+void Panel::receptionist(const drogon::HttpRequestPtr& pReq,
+    std::function<void(const drogon::HttpResponsePtr&)>&& callback) try
+{
+    drogon::HttpResponsePtr pResp;
+
+    if (!LoginSystemController::isUserShouldSeeThis(pReq, pResp, tsrpp::Database::User::Role::RECEPTIONIST))
+    {
+        callback(pResp);
+        return;
+    }
+
+    pResp = drogon::HttpResponse::newRedirectionResponse(
+        tsrpp::createUrl("/panel/receptionist/pending_requests"));
+    callback(pResp);
+}
+catch(const std::exception& e)
+{
+    drogon::HttpResponsePtr pResp;
+    // TODO: code duplication
+    fmt::print(std::cerr, fmt::format(fmt::fg(fmt::color::red), "tsrpp::exception {}\n", e.what()));
+    pResp = drogon::HttpResponse::newHttpResponse();
+    pResp->setBody("Something went wrong...");
+    callback(pResp);
+}
+
+void Panel::patientPersonalInformations(const drogon::HttpRequestPtr& pReq,
+    std::function<void(const drogon::HttpResponsePtr&)>&& callback) try
+{
+    drogon::HttpResponsePtr pResp;
+
+    if (!LoginSystemController::isUserShouldSeeThis(pReq, pResp, tsrpp::Database::User::Role::PATIENT))
+    {
+        callback(pResp);
+        return;
+    }
+
+    drogon::HttpViewData data;
+    pResp = drogon::HttpResponse::newHttpViewResponse("panel_patient_personal", data);
+    callback(pResp);
+}
+catch(const std::exception& e)
+{
+    drogon::HttpResponsePtr pResp;
+    // TODO: code duplication
+    fmt::print(std::cerr, fmt::format(fmt::fg(fmt::color::red), "tsrpp::exception {}\n", e.what()));
+    pResp = drogon::HttpResponse::newHttpResponse();
+    pResp->setBody("Something went wrong...");
+    callback(pResp);
+}
+
+void Panel::doctorPersonalInformations(const drogon::HttpRequestPtr& pReq,
+    std::function<void(const drogon::HttpResponsePtr&)>&& callback) try
+{
+    drogon::HttpResponsePtr pResp;
+
+    if (!LoginSystemController::isUserShouldSeeThis(pReq, pResp, tsrpp::Database::User::Role::DOCTOR))
+    {
+        callback(pResp);
+        return;
+    }
+
+    pResp = drogon::HttpResponse::newHttpResponse();
+    pResp->setBody("doctorPersonalInformations(0)");
+    callback(pResp);
+}
+catch(const std::exception& e)
+{
+    drogon::HttpResponsePtr pResp;
+    // TODO: code duplication
+    fmt::print(std::cerr, fmt::format(fmt::fg(fmt::color::red), "tsrpp::exception {}\n", e.what()));
+    pResp = drogon::HttpResponse::newHttpResponse();
+    pResp->setBody("Something went wrong...");
+    callback(pResp);
+}
+
+void Panel::receptionistPendingRequests(const drogon::HttpRequestPtr& pReq,
+    std::function<void(const drogon::HttpResponsePtr&)>&& callback) try
+{
+    drogon::HttpResponsePtr pResp;
+
+    if (!LoginSystemController::isUserShouldSeeThis(pReq, pResp, tsrpp::Database::User::Role::RECEPTIONIST))
+    {
+        callback(pResp);
+        return;
+    }
+
+    pResp = drogon::HttpResponse::newHttpResponse();
+    pResp->setBody("receptionistPendingRequests()");
+    callback(pResp);
+}
+catch(const std::exception& e)
+{
+    drogon::HttpResponsePtr pResp;
+    // TODO: code duplication
+    fmt::print(std::cerr, fmt::format(fmt::fg(fmt::color::red), "tsrpp::exception {}\n", e.what()));
+    pResp = drogon::HttpResponse::newHttpResponse();
+    pResp->setBody("Something went wrong...");
+    callback(pResp);
+}

@@ -23,6 +23,14 @@ public:
 
     struct User
     {
+        enum class Role
+        {
+            INVALID = -1,
+            PATIENT,
+            DOCTOR,
+            RECEPTIONIST
+        };
+
         std::int32_t id;
         std::string pesel;
         std::string password;
@@ -30,7 +38,7 @@ public:
         std::string last_name;
         std::string email;
         std::string note;
-        std::int32_t role;
+        Role role;
     };
     bool addUser(const User& user);
     std::optional<Database::User> getUser(const std::string& pesel);
