@@ -22,6 +22,12 @@ TypeName& operator=(TypeName&&)=delete;
 NOT_COPYABLE(TypeName)                      \
 NOT_MOVEABLE(TypeName)
 
+#ifdef NDEBUG
+#define MAIN_URL "https://" DOMAIN_NAME
+#else
+#define MAIN_URL "http://" DOMAIN_NAME
+#endif
+
 #define XSTR(x) #x
 #define STR(x) XSTR(x)
 

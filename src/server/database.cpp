@@ -48,7 +48,7 @@ std::optional<Database::User> Database::getUser(const std::string& pesel)
             .last_name{q.getColumn("last_name").getString()},
             .email{q.getColumn("email").getString()},
             .note{q.getColumn("note").getString()},
-            .role{q.getColumn("role")}
+            .role{static_cast<User::Role>(q.getColumn("role").getInt())}
         }};
     }
 

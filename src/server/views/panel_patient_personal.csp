@@ -12,22 +12,22 @@
         <div class="container-fluid">
             <div class="col-2 bg-light position-fixed h-100">
                 <div class="row">
-                    <a href="patient/personal" class="btn btn-primary my-2">Personal information</a>
+                    <a href="personal" class="btn btn-primary my-2">Personal information</a>
                 </div>
                 <div class="row">
-                    <a href="patient/calendar/internist" class="btn btn-secondary my-2">Internist</a>
+                    <a href="calendar/internist" class="btn btn-secondary my-2">Internist</a>
                 </div>
                 <div class="row">
-                    <a href="patient/calendar/gastroenterologist" class="btn btn-secondary my-2">Gastroenterologist</a>
+                    <a href="calendar/gastroenterologist" class="btn btn-secondary my-2">Gastroenterologist</a>
                 </div>
                 <div class="row">
-                    <a href="patient/calendar/pulmonologist" class="btn btn-secondary my-2">Pulmonologist</a>
+                    <a href="calendar/pulmonologist" class="btn btn-secondary my-2">Pulmonologist</a>
                 </div>
                 <div class="row">
-                    <a href="patient/calendar/oculist" class="btn btn-secondary my-2">Oculist</a>
+                    <a href="calendar/oculist" class="btn btn-secondary my-2">Oculist</a>
                 </div>
                 <div class="row">
-                    <a href="logout" class="btn btn-secondary my-2">Logout</a>
+                    <a href="../../logout" class="btn btn-secondary my-2">Logout</a>
                 </div>
             </div>
 

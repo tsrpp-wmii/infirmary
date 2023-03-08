@@ -2,8 +2,12 @@ cmake_minimum_required(VERSION 3.10)
 
 project(infirmary VERSION 0.0.1 LANGUAGES CXX)
 
-if(NOT UNIX AND NOT CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-    message(WARNING "Config was only tested on UNIX system and GNU compiler!")
+if(NOT UNIX AND NOT CMAKE_COMPILER_IS_GNUCC)
+    message(WARNING "Config was tested only on UNIX system and GNU compiler!")
+    if(CMAKE_CXX_COMPILER_VERSION NOT VERSION_EQUAL 9.4.0)
+        message(WARNING "Config was tested only on the GNU compiler version 9.4.0 "
+            "and adjusted to its limitations such as the lack of constexpr std::string!")
+    endif()
 endif()
 
 if(NOT DEFINED ${CMAKE_BUILD_TYPE})
