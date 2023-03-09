@@ -120,12 +120,7 @@ public:
     }
     catch(const std::exception& e)
     {
-        drogon::HttpResponsePtr pResp;
-        // TODO: code duplication
-        fmt::print(std::cerr, fmt::format(fmt::fg(fmt::color::red), "tsrpp::exception {}\n", e.what()));
-        pResp = drogon::HttpResponse::newHttpResponse();
-        pResp->setBody("Something went wrong...");
-        callback(pResp);
+        ERROR_PAGE;
     }
 
 
@@ -202,12 +197,7 @@ public:
     }
     catch(const std::exception& e)
     {
-        drogon::HttpResponsePtr pResp;
-        // TODO: code duplication
-        fmt::print(std::cerr, fmt::format(fmt::fg(fmt::color::red), "tsrpp::exception {}\n", e.what()));
-        pResp = drogon::HttpResponse::newHttpResponse();
-        pResp->setBody("Something went wrong...");
-        callback(pResp);
+        ERROR_PAGE;
     }
 
 
