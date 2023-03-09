@@ -31,12 +31,12 @@ NOT_MOVEABLE(TypeName)
 #define XSTR(x) #x
 #define STR(x) XSTR(x)
 
-#define ERROR_PAGE \
-        drogon::HttpResponsePtr pResp; \
+#define ERROR_PAGE                                                                                       \
+        drogon::HttpResponsePtr pResp;                                                                   \
         fmt::print(std::cerr, fmt::format(fmt::fg(fmt::color::red), "tsrpp::exception {}\n", e.what())); \
-        pResp = drogon::HttpResponse::newHttpResponse(); \
-        pResp->setBody("Something went wrong..."); \
-        callback(pResp); \
+        pResp = drogon::HttpResponse::newHttpResponse();                                                 \
+        pResp->setBody("Something went wrong...");                                                       \
+        callback(pResp);
 
 namespace tsrpp
 {
