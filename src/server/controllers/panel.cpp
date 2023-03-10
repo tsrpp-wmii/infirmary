@@ -33,12 +33,7 @@ void Panel::index(const drogon::HttpRequestPtr& pReq,
 }
 catch(const std::exception& e)
 {
-    drogon::HttpResponsePtr pResp;
-    // TODO: code duplication
-    fmt::print(std::cerr, fmt::format(fmt::fg(fmt::color::red), "tsrpp::exception {}\n", e.what()));
-    pResp = drogon::HttpResponse::newHttpResponse();
-    pResp->setBody("Something went wrong...");
-    callback(pResp);
+    ERROR_PAGE;
 }
 
 void Panel::patient(const drogon::HttpRequestPtr& pReq,
@@ -58,12 +53,7 @@ void Panel::patient(const drogon::HttpRequestPtr& pReq,
 }
 catch(const std::exception& e)
 {
-    drogon::HttpResponsePtr pResp;
-    // TODO: code duplication
-    fmt::print(std::cerr, fmt::format(fmt::fg(fmt::color::red), "tsrpp::exception {}\n", e.what()));
-    pResp = drogon::HttpResponse::newHttpResponse();
-    pResp->setBody("Something went wrong...");
-    callback(pResp);
+    ERROR_PAGE;
 }
 
 void Panel::doctor(const drogon::HttpRequestPtr& pReq,
@@ -83,12 +73,7 @@ void Panel::doctor(const drogon::HttpRequestPtr& pReq,
 }
 catch(const std::exception& e)
 {
-    drogon::HttpResponsePtr pResp;
-    // TODO: code duplication
-    fmt::print(std::cerr, fmt::format(fmt::fg(fmt::color::red), "tsrpp::exception {}\n", e.what()));
-    pResp = drogon::HttpResponse::newHttpResponse();
-    pResp->setBody("Something went wrong...");
-    callback(pResp);
+    ERROR_PAGE;
 }
 
 void Panel::receptionist(const drogon::HttpRequestPtr& pReq,
@@ -108,12 +93,7 @@ void Panel::receptionist(const drogon::HttpRequestPtr& pReq,
 }
 catch(const std::exception& e)
 {
-    drogon::HttpResponsePtr pResp;
-    // TODO: code duplication
-    fmt::print(std::cerr, fmt::format(fmt::fg(fmt::color::red), "tsrpp::exception {}\n", e.what()));
-    pResp = drogon::HttpResponse::newHttpResponse();
-    pResp->setBody("Something went wrong...");
-    callback(pResp);
+    ERROR_PAGE;
 }
 
 void Panel::patientPersonalInformations(const drogon::HttpRequestPtr& pReq,
@@ -133,12 +113,7 @@ void Panel::patientPersonalInformations(const drogon::HttpRequestPtr& pReq,
 }
 catch(const std::exception& e)
 {
-    drogon::HttpResponsePtr pResp;
-    // TODO: code duplication
-    fmt::print(std::cerr, fmt::format(fmt::fg(fmt::color::red), "tsrpp::exception {}\n", e.what()));
-    pResp = drogon::HttpResponse::newHttpResponse();
-    pResp->setBody("Something went wrong...");
-    callback(pResp);
+    ERROR_PAGE;
 }
 
 void Panel::doctorPersonalInformations(const drogon::HttpRequestPtr& pReq,
@@ -158,12 +133,7 @@ void Panel::doctorPersonalInformations(const drogon::HttpRequestPtr& pReq,
 }
 catch(const std::exception& e)
 {
-    drogon::HttpResponsePtr pResp;
-    // TODO: code duplication
-    fmt::print(std::cerr, fmt::format(fmt::fg(fmt::color::red), "tsrpp::exception {}\n", e.what()));
-    pResp = drogon::HttpResponse::newHttpResponse();
-    pResp->setBody("Something went wrong...");
-    callback(pResp);
+    ERROR_PAGE;
 }
 
 void Panel::receptionistPendingRequests(const drogon::HttpRequestPtr& pReq,
@@ -183,10 +153,5 @@ void Panel::receptionistPendingRequests(const drogon::HttpRequestPtr& pReq,
 }
 catch(const std::exception& e)
 {
-    drogon::HttpResponsePtr pResp;
-    // TODO: code duplication
-    fmt::print(std::cerr, fmt::format(fmt::fg(fmt::color::red), "tsrpp::exception {}\n", e.what()));
-    pResp = drogon::HttpResponse::newHttpResponse();
-    pResp->setBody("Something went wrong...");
-    callback(pResp);
+    ERROR_PAGE;
 }
